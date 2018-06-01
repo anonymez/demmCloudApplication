@@ -1,0 +1,20 @@
+
+sudo fdisk -l
+yum install parted
+sudo yum install parted
+sudo vi /etc/resolv.conf
+ping google.com
+yum install parted
+sudo yum install parted
+sudo parted -l
+parted /dev/vdb mklabel gpt
+sudo parted /dev/vdb mklabel gpt
+sudo parted -a opt /dev/vdb mkpart secondary ext4 0% 100%
+lsblk
+sudo mkfs.ext4 -L disco /dev/vdb1
+sudo df -h
+sudo fdisk -l
+mkdir miodisko
+mount /dev/vdb1 miodisko
+sudo mount /dev/vdb1 miodisko
+cd miodisko/
