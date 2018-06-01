@@ -1,4 +1,4 @@
-
+http://159.149.70.50:8484
 sudo fdisk -l
 yum install parted
 sudo yum install parted
