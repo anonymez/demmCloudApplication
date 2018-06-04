@@ -1,0 +1,50 @@
+Login nella dashboard a 159.149.70.50
+
+Creazione VM (flavor cdc.small)  
+- NOTA BENE nella sezione Origine selezionare 
+Selezione Origine di Avvio: Immagine / Crea Volume NO  - Selezionare CentOS 7
+Associo IP mobile alla macchina Virtuale.
+ecco il mapping floating IP/ip:porta per accedere alla macchina
+
+
+
+Creazione Volume (1Gb)
+Da Istanze agganciare il volume alla VM
+SSH dentro alla VM (usare putty per macchine Window) utilizzando la chiave privata generata in precedenza
+una volta entrati:
+1	$ sudo -i
+	// divento root
+2	# yum update
+	//aggiorno i repositoru
+3	# yum install parted
+	//installo parted per partizionare il mio volume
+4	# parted -l
+	// controllo i dischi disponibili, devo identificare il mio volume da 1Gb (anche la dashboard ci da informazione dove e' stato montato - solitamente /dev/vdb)
+5	# parted /dev/vdb mklabel gpt
+	//partizione il disco 
+6	parted -a opt /dev/vdb mkpart secondary ext4 0% 100%
+	// aggiungo una partizione a /dev/vdb grande come il disco, definisco che e' una partizione secondary e di tipo ext4
+7	# lsblk
+	//trovo la mia nuova partizione che nel mio caso corrisponde a /dev/vdb1
+8	mkfs.ext4 -L disco /dev/vdb1
+	//formatto in ext4 la partizione creata
+9	# exit
+10	$ cd
+	//esco dalla modalita' root
+11	$ mkdir miodisko
+	// cro la cartella per il mio disco
+12	$ mount /dev/vdb1 miodisko
+	// monto il disco nella cartella
+13	$ sudo yum install git
+	//installo git
+14	$ git clone https://github.com/anonymez/demmCloudApplication.git
+15	$ mv demmCloudApplication /home/centos/miodisko/
+16	$ cd /home/centos/miodisko/demmCloudApplication/lezioneOpenstack/
+17	$ python ex2.py
+
+
+Elimino l'instanza
+Ricreo un'altra instanza e ricollego il volume
+faccio di nuovo ssh e rifaccio le operazioni 11, 12, 16 e 17 -> trovo i dati del mio volume ancora li'
+
+
